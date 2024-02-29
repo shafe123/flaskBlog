@@ -4,6 +4,7 @@ This module contains all the general application settings.
 
 # Import necessary modules from the modules module
 from modules import secrets, socket
+from os import environ
 
 
 # Name of the Flask application
@@ -16,7 +17,7 @@ APP_VERSION = "2.0.0"  # (str)
 APP_ROOT_PATH = "."  # (str)
 
 # Hostname or IP address for the Flask application
-APP_HOST = socket.gethostbyname(socket.gethostname())  # (str)
+APP_HOST = environ['IPADDRESS'] if 'IPADDRESS' in environ else socket.gethostbyname(socket.gethostname()) # (str)
 
 # Port number for the Flask application
 APP_PORT = 5000  # (int)

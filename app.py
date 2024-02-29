@@ -8,6 +8,7 @@ from modules import (
     terminalASCII,  # Importing the terminalASCII function for displaying ASCII art in the terminal
     currentTimeStamp,  # Importing the currentTimeStamp function for getting the current timestamp
 )
+import os
 
 
 # Get the start time of the app
@@ -443,10 +444,23 @@ app.register_blueprint(
     changeProfilePictureBlueprint
 )  # Registering the blueprint for the change profile picture route
 
-
+import argparse
 # Check if the name of the module is the main module
 match __name__:
     case "__main__":
+        parser = argparse.ArgumentParser(prog="flaskBlog")
+        parser.add_argument('-p', '--port', type=int, default=5000)
+
+        args = parser.parse_args()
+        APP_PORT = args.port
+
+        if os.path.exists("secrets.txt"):
+            with open("secrets.txt") as in_file:
+                APP_SECRET_KEY = in_file.read().strip()
+        else:
+            print("No secrets file!")
+            exit(-1)
+
         # Log the host and port
         Log.app(f"Running on http://{APP_HOST}:{APP_PORT}")
 
